@@ -1,0 +1,193 @@
+%================================================================ Formatting.
+\documentclass[reqno,11pt]{amsart}
+\usepackage{amsmath,amssymb,amsthm,graphicx,a4wide,enumerate,url}
+\usepackage[small,bf]{caption} \setlength{\captionmargin}{0pt}
+%========================================================== Layout parameters.
+% center horizontally with margins of 1.25in left and right
+\setlength{\oddsidemargin}{0.5\paperwidth}
+\addtolength{\oddsidemargin}{-0.5\textwidth}
+\addtolength{\oddsidemargin}{-1in}
+\setlength{\evensidemargin}{\oddsidemargin}
+% vertical adjustment with margins 1in top and bottom
+\setlength{\textheight}{8.6in}
+\setlength{\topmargin}{-0.1in}
+% head and foot separations
+\setlength{\headsep}{.2in}
+\setlength{\footskip}{.3in}
+%================================================================== Macros.
+\newcommand{\prn}[1]{\left(#1\right)}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\brk}[1]{\left[#1\right]}
+\newcommand{\pd}[2]{\frac{\partial#1}{\partial#2}}
+\newcommand{\ud}[1]{\,\mathrm{d}#1}
+%===========================================================================
+
+
+\begin{document}
+\parskip.9ex
+
+%===========================================================================
+%=================================================================== Titles.
+\title[On Thin Ice]
+{On Thin Ice:\\ The Delicate Relationship Between\\ Polar Bears, Ringed Seals, and Climate Change}
+\author[Team \#1]{Team \#1}
+\keywords{}
+
+%===========================================================================
+\begin{abstract}
+Two major components of the Arctic’s terrestrial ecosystem are the predatory polar bear and its major prey, the ringed seal. The population of the two are intimately related in a way that is reflected by the Lotka-Volterra equations. Their predator-prey relationship is also unique because of their extreme environment. The Antarctic ice packs fluctuate from 6.3 million square kilometers in summer to 15.5 million in winter, having dramatic implications on both the behavior of the seals and the bears’ hunting opportunities.  In order to model their coexistence, these annual changes must somehow be accounted for. With this paper, we replace several of the constants present in the Lotka-Volterra equations with functions of the sea ice’s changing area. We also project these findings into the future to attempt to model how the ecosystem will be affected by global warming.
+\end{abstract}
+%===========================================================================
+
+\maketitle
+
+%===========================================================================
+\section{Introduction}
+\label{sec:introduction}
+%===========================================================================
+The predatory relationship between the polar bear and the ringed seal has been a subject of study for several reasons. It is an essential part of the Arctic biosphere and it is also important for managing human interactions.\cite{Stirling} In recent years, global warming has generated even more interest on the subject, resulting in data on how the arctic terrain is changing and how its fauna is affected.\cite{Ice} The reduction of sea ice has become a controversial topic, and part of our aim with this model is to demonstrate a conclusive way to interpret the data.
+
+The Lotka-Volterra model is a tried and true way of handling any basic predator-prey relationship due mainly to its simplicity: the predator’s growing population ultimately exhausts it’s own food source, reducing itself until the prey population is fully recovered.\cite{Lotka} We will first represent the predator interaction using a specialized version of the Lotka-Volterra equations, anticipating a similar, oscillatory relationship. Then, we will introduce the influence of global warming on the two populations. Over a time scale of decades, there should be a dramatic reduction in each population due to climate change that is outside the scope of a standard Lotka-Volterra model.
+
+%===========================================================================
+\section{Preliminary Assumptions}
+\label{sec:assumptions}
+%===========================================================================
+According to scientific research, the seals must periodically surface on the ice, where they encounter polar bears and become their prey.  We assume all the predation happens on the ice pack, the location of this fatal rendezvous. 
+
+Regarding the seals, we assume:
+\begin{enumerate}
+\item \emph{The annual birth rate for seals is 40\%.}\cite{Seals}
+\item \emph{Roughly 70\% of the seal population can be observed on the pack ice.} This is a conservative estimate for peak hunting, meant to compensate for summer months of sparse hunting.\cite{Seals}
+\item \emph{While on the surface, all seal mortality is a result of polar bear predation.} It is possible that all injuries and sickness of seals will only increase their chances of being eaten.\cite{Stirling}
+\end{enumerate}
+
+Regarding the polar bears, we assume:
+\begin{enumerate}
+\item \emph{The annual birth rate is 30\%.} Verification for this is difficult due to the lack of statistical data on polar bears. But this is a reasonable assumption based on population dynamics.
+\item \emph{The seals are their only food source.} This is approximately true, especially through the spring and early summer months when they store most of their annual calories.\cite{Stirling}
+\item \emph{The deaths of polar bears can be divided into starvation and other ``life-threatening risks".} In the basic model, the intraspecific competition is the only form of external mortality; hence, it is reasonable to view all the other deaths as lack of ability to hunt. We introduce human intervention and the effects of global warming as life-threatening risks in the advanced model.\cite{Bear_pop}
+\item \emph{Polar bears will keep feeding themselves without upper level of satisfaction.} They will never bypass a seal due to high feeding frequency.
+\end{enumerate}
+
+%===========================================================================
+\section{Model Design}
+\label{sec:design}
+%===========================================================================
+We denote $PBt$ and $St$ as the total population of polar bears and seals at time $t$; $PBb$, $PBd$, $Sb$ and $St$ as the birth rate and death rate of polar bears and seals, respectively; and A as the area of the pack ice, where we incorporate a sinusoidal function to describe the fluctuation of the seasonal changes in glaciation.  According to the latest report, the maximum and minimum levels of sea ice across the Arctic is  1,550,000 $km^2$ and 630,000 $km^2$, respectively.\cite{Ice} Figure 1 shows data for the annual fluctuations in the extent of the sea ice. Thus, we construct A as follows:
+\begin{equation}
+\label{eq:A}
+A = 1.09 + .46sin(\frac{\pi t}{6}) + 0.01sin(10\pi t)\;.
+\end{equation}
+
+\begin{figure}
+\includegraphics[width=\textwidth]{Ice}
+\vspace{-1.5em}
+\caption{Comparison of annual fluctuations in Arctic Sea Ice Extent for multiple years. Taken from \cite{Ice}.}
+\end{figure}
+
+The total population of seals on the ice should be the product of the land area, $A$, and the density, $\rho$, which is proportional to the whole population of seals. Therefore, the total population of seals who are eligible as prey are:
+\begin{equation}
+\label{eq:Pop}
+Pop = A * \rho = A * 0.7 * St\;.
+\end{equation}
+
+On the pack ice, where polar bears and seals make contact and predation is staged, we use a binomial distribution to describe such interactive behaviors. At time $t$, there are $PBt$ polar bears hunting for seals on the ice. Their population is $A * \rho$. We assume the contact is evenly distributed to the whole area. Thus, each polar bear has $A * \rho / St$ potential prey. For each attack that a polar bear attempts, the probability for success is $P$. In order to survive, each polar bear has to have at least some success or it will die due to starvation. Based on the characteristics of binomial distributions, we conclude that the death rate of seals is the expected number of deaths divided by total seals population:
+\begin{equation}
+\label{eq:Sd}
+Sd = \frac{P * Pop}{St}\;.
+\end{equation}
+
+Without further consideration about human intervention and other force majeure, we define the death rate of all the other causes to be 50\%. Thus the death rate of polar bears can be described as: 
+\begin{equation}
+\label{eq:PBd}
+PBd = 0.5 + (1 - P)^\frac{Pop}{PBt}\;.
+\end{equation}
+
+In order to implement the model, we used MATLAB code to solve a system of ordinary differential equations. We used the Lotka-Volterra Equations\cite{Lotka} to model the predator-prey interactions: 
+\begin{equation}
+\label{eq:lotka_volterra}
+\begin{split}
+\frac{dx}{dt} &= x(\alpha - \beta y)\;, \\
+\frac{dy}{dt} &= -y(\lambda - \delta x),
+\end{split}
+\end{equation}
+where $x$ and $y$ are the populations of the prey and predator, respectively, $\alpha$, $\beta$, $\lambda$, and $\delta$ are constants, and $\frac{dx}{dt}$, and $\frac{dy}{dt}$ are the rates of change of the populations. For our model, $\alpha = Sb$, $\beta = Sd$, $\lambda = PBd$, and $\delta = PBb$. Normally, all of these are chosen as constants; however, we used our death rates as functions of time. As is evident from \eqref{eq:Sd} and \eqref{eq:PBd}, $Sd$ and $PBd$ are functions of $A(t)$. As the shoreline shrinks and grows, the number of interactions between seals and polar bears changes with it.
+
+%===========================================================================
+\section{Results}
+\label{sec:results}
+%===========================================================================
+In order to make the interactions between polar bears and seals as realistic as possible, we aimed for an oscillatory nature for both populations. Throughout the year, the seal population grows during mating season and shrinks as the polar bear population grows. As the polar bears kill too many seals, the polar bear population declines, giving the seals another chance to breed. This sort of interaction can be seen in fig.~2.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{Interactions}
+\vspace{-1.5em}
+\caption{Populations of polar bears and seals over the course of 5 years.}
+\end{figure}
+
+One can see that the population of each species never gets too large or too small. They keep each other in check. Since we assume polar bears only eat seals, the polar bears’ feeding habits are strictly dependent on the number of seals. With an initial population of 3000, the seals drop to nearly 500, then rebound up to 4000 with a period of about a year. This amplitude is a bit unrealistic, but for a high birth rate and quick turnover, this is a reasonable result. The polar bears start out with an initial population of 1000, varying much less than the seals. The minimum population is about 200, occurring just after the minimum population of seals, and the maximum population is 1200, occurring just after the maximum population of seals. For an animal that has a very long gestation period, one would expect much less variance in this population than the seals.
+
+The outlined model does not give much weight to external influences. Human intervention plays a large role in the interactions between polar bears and seals in the Arctic. Poaching of polar bears will allow for larger seal populations and less competition for resources among the remaining bears. By increasing our constant in \eqref{eq:PBd}, we can account for a larger number of polar bear deaths due to external influences, such as poaching. Figure 3 demonstrates the increased human intervention, resulting in higher seal populations and polar bear populations that have difficulty regaining numbers. The polar bear is already an endangered species, so it is crucial that they are protected from hunting and poachers. 
+
+\begin{figure}
+\includegraphics[width=\textwidth]{Humans}
+\vspace{-1.5em}
+\caption{Populations of polar bears and seals over the course of 5 years with increased human influence.}
+\end{figure}
+
+Since the area of the ice is such an important part of our model, even changing it just a little can have profound effects on the resulting populations. Since climate change is so relevant, we decided to model the effect of climate change on the pack ice. We found that the Arctic sea ice coverage has been declining at an average of 9\% over the course of a decade\cite{Ice}. We modeled this decline with a gradually sloping curve that demonstrates asymptotic stability so the area of the ice is never 0. (This assumption may be unrealistic, but that is addressed in \S\ref{sec:strengths}.) Less ice means fewer interactions between polar bears and seals, resulting in higher death rates for both. These population fluctuations are shown in fig.~4. As the figure shows, over time the polar bear and seal populations fluctuate less and less until they stagnate at about 60\% of the initial populations of both. Without a food source, the polar bears will eventually become extinct from starvation.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{Warming}
+\vspace{-1.5em}
+\caption{Populations of polar bears and seals over the course of 30 years with the influence of global warming.}
+\end{figure}
+
+Obviously, human interaction can play a very large role in the lives of these animals. Climate change is real and the polar ice caps are melting, taking precious land away from these, and other, Arctic species. Seals need the ice packs to breed, socialize, raise pups, and molt. Their survival is impossible without them.\cite{Seal_pop} It has been scientifically proven that climate change is caused by humans ever since the industrial revolution started pumping exponentially more carbon into the atmosphere, damaging the ozone, and increasing temperatures. The changes are evident in our climate as the Earth’s temperature is slowly rising. The main, short-term consequence for the polar bears is increased fasting periods. If the ice is breaking up earlier in the season, there will be fewer seals for the polar bears to hunt, so they will have to start fasting earlier. If their reserves of adipose tissue cannot last through this extended period, they will have to search for food by moving inland. This has already been demonstrated in the Canadian Arctic. \cite{Climate} There will be increased interactions between polar bears and humans which will inevitably lead to more problems. Humans can solve this problem by reversing climate change. It will take a global effort and many years, but by decreasing our dependence on fossil fuels, investing in renewable sources of energy, and practicing sustainability in all aspects of life, we can stop the destruction of the earth and save the polar bears.
+
+%===========================================================================
+\section{Strengths \& Weaknesses}
+\label{sec:strengths}
+%===========================================================================
+The whole model builds on a non-constant parameter, which is the area of the pack ice, $A(t)$. We choose the death rates of both polar bears and seals to be correlated with $A(t)$. The longer coastline of glaciers, the higher chance they interact with each other and predation occurs. Also, using a binomial distribution to model this predation makes it statistically realistic.
+
+Also, using a relatively less complicated model is another advantage. The model itself is easier to intensify, which leaves extra room for further considerations including human intervention, polar bear attack rate and effects of climate change on the length of shoreline. From the beginning, we built the model based on reasonable assumptions and scientific research in order to match our data to realistic data as much as possible which makes it more convincing.
+
+On the other hand, the model will not accurately describe some extreme conditions. For example, the seals and polar bears do not exist in isolation. Seals have aquatic predators that can reduce their availability as food for bears. Also, during the nursing months of early spring, it is possible that all of the ice could melt ($A(t)=0$) as a result of extreme global warming sometime in the future. In this case, the seals would have no land on which to give birth, resulting in zero interactions between seals and polar bears. Normally, one would expect this to lead to the extinction of both species. However, due to the assumptions in our model, this is not the case. While this is not a major flaw in our model due to the extremity of this case, it is something that would need to be revised in the future.
+
+%===========================================================================
+\section{Future Work}
+\label{sec:future}
+%===========================================================================
+This model is as exclusive to the seals and bears predator/prey relationship as it could realistically be, focusing less on factors which do not directly alter this relationship. This focus is fundamental for a basic understanding of the nature of the model. However, for a broader scope of application, the differential equations could be modified to reflect more complexity. Factors such as max populations, rates of starvation, and scaling parameters that were excluded for brevity, could be incorporated to more accurately describe the interactions between these species.
+
+The model could also be improved by considering external factors. We have already mentioned that the ringed seal and the polar bear do not exist in isolation. Seals have aquatic predators which reduce their availability as prey for bears and, during the nursing months of early spring, are threatened by other terrestrial predators such as arctic foxes and ravens.\cite{Citta} Nor is the bear’s diet specialized to the ringed seal. They prey to a lesser extent upon bearded seals and are opportunistic hunters that take whatever calories are available. There are documented cases of bears preying on walruses and even beluga whales. Ringed seal fatalities may decrease when other prey is available.\cite{Bears}
+
+Finally, global warming is not the only way that humans interact with the Arctic biosphere. Entire studies have been dedicated to the management of human affairs in the Arctic and how this affects local species. Both animals are poached for their fur and other consumer products like makeup. Hunting them is also an integral part of Inuit tradition. As human civilization expands and our influence on the environment grows, our relationship to these animals and the way we manage that relationship will become more important.
+
+%===========================================================================
+\section{Conclusions}
+\label{sec:conclusions}
+%===========================================================================
+In this paper, we have improved the classic Lotka-Volterra model of predation dynamics and made it viable for a drastically changing landscape like the Arctic Ocean. Not only can the differential equations show annual changes, but they can also model long-term changes in the terrain outside of predation, such as reductions projected by global warming. This makes the model, although simplified in many respects, a realistic tool which is both accurate and current in it’s ability to gauge the health of both species.
+
+The area of the sea ice as a function of time is important for our advanced model, where the long-term effects of global warming are demonstrated. Current trends in climate change are annually decreasing the amount of sea ice. When this trajectory is followed, the two species will not experience oscillatory population growth over time but stagnate to a small percentage of their initial population as the area of interaction decreases. Thus, even though a broad range of assumptions must be made in order to model the predator/prey relationship, the final results are still successful at yielding relevant data. Using our model, we can approximate future populations of polar bears and ringed seals and study how they are expected to change over time.
+
+
+%===========================================================================
+\vspace{1.5em}
+\bibliographystyle{plain}
+\bibliography{ref}
+%===========================================================================
+
+\section{Appendix}
+\label{sec:appendix}
+
+\begin{figure}
+\includegraphics[width=\textwidth]{Pop_model.pdf}
+\vspace{-1.5em}
+\end{figure}
+
+\end{document}
